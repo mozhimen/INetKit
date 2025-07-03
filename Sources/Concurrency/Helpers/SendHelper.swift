@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ISwiftKit
 
 /// - Parameters:
 ///   - request: A URL load request that is independent of protocol or URL scheme
@@ -13,12 +14,12 @@ import Foundation
 ///   - taskDelegate: A protocol that defines methods that URL session instances call on their delegates to handle task-level events
 internal func sendRetry(
     with request: URLRequest,
-    retry strategy:ServiceRetry.Strategy,
+    use strategy:ServiceKRetry.Strategy,
     _ taskDelegate: PTaskDelegate? = nil,
     _ urlSession: URLSession = .shared
 ) async throws -> (Data, URLResponse)
 {
-    let service = ServiceRetry(strategy: strategy)
+    let service = ServiceKRetry(strategy: strategy)
     
     for delay in service.dropLast(){
         do{

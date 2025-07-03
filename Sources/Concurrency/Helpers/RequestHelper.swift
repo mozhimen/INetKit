@@ -42,7 +42,7 @@ internal func buildURLRequest(
     if let body {
         request.httpBody = body
     }
-    
+
     return request
 }
 
