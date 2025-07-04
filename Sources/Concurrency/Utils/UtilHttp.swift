@@ -207,7 +207,7 @@ public extension Http{
             taskDelegate:PTaskDelegate? = nil
         ) async throws -> Http.Response<T> where T:Decodable{
             let body = try config.writer.toJson(body)
-            let request = try buildURLRequest(config.baseURL, for: path,method: .POST,querys: querys,headers: headers)
+            let request = try buildURLRequest(config.baseURL, for: path,method: .POST,body: body, querys: querys,headers: headers)
             return try await send(with: request,use: strategy(retry), validate, taskDelegate)
         }
         
@@ -230,7 +230,7 @@ public extension Http{
             taskDelegate: PTaskDelegate? = nil
         ) async throws -> Http.Response<T> where T:Decodable{
             let body = try config.writer.toJson(body)
-            var request = try buildURLRequest(config.baseURL, for: path,method: .PUT,querys: querys,headers: headers)
+            var request = try buildURLRequest(config.baseURL, for: path,method: .PUT,body: body,querys: querys,headers: headers)
             if hasNotContentType(config.getSession, request) {
                 let content = config.defaultContentType
                 request.setValue(content, forHTTPHeaderField: "Content-Type")
@@ -272,8 +272,10 @@ public extension Http{
         )async throws -> Http.Response<T> where T:Decodable{
             let reader = config.reader
             let (data,response) = try await sendRetry(with: request, use: strategy,taskDelegate,config.getSession)
+            print("data: \(data)")
             try validateStatus(response, by: validate.pickStatusRules(),with: data)
             let value:T = try reader.fromJson(data: data)
+            print("value: \(value)")
             return .init(value: value, data: data, response, request)
         }
     }

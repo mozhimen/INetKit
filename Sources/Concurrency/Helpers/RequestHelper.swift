@@ -43,6 +43,7 @@ internal func buildURLRequest(
         request.httpBody = body
     }
 
+    print("url: \(url) headers: \(request.allHTTPHeaderFields) httpMethod \(method.rawValue) body \(request.httpBody)")
     return request
 }
 

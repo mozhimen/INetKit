@@ -10,5 +10,5 @@ import Foundation
 public protocol PJsonWriter{
     /// 解析从远程源加载的数据
     /// - Parameter data: 数据源
-    func toJson<T:Encodable>(_ item: T) throws -> Data
+    func t2StrJson<T:Encodable>(_ t: T) throws -> Data
 }

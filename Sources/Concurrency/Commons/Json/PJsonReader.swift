@@ -11,5 +11,5 @@ import Foundation
 public protocol PJsonReader{
     /// 解析从远程源加载的数据
     /// - Parameter data: 数据源
-    func fromJson<T:Decodable>(data:Data) throws -> T
+    func strJson2t<T:Decodable>(strJson:Data) throws -> T
 }
