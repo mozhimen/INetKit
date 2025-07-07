@@ -13,8 +13,6 @@ public protocol PConverter<F,T> {
 }
 
 public protocol PConverterFactory{
-    associatedtype F
-    associatedtype T
-    func responseBodyConverter() -> any PConverter<F,T,J>
-    func resquestBodyConverter() -> any PConverter<T,F,J>
+    func responseBodyConverter() -> (any PConverter<PResponseBody,Any>)?
+    func resquestBodyConverter() -> (any PConverter<Any,PRequestBody>)?
 }

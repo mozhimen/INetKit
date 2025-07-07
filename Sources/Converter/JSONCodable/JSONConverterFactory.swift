@@ -10,6 +10,8 @@ class JSONConverterFactory: PConverterFactory {
     private let jsonEncoder: JSONEncoder
     private let jsonDecoder: JSONDecoder
     
+    //============================================
+    
     static func create()->JSONConverterFactory{
         create(jsonEncoder: JSONEncoder(), jsonDecoder: JSONDecoder())
     }
@@ -18,16 +20,20 @@ class JSONConverterFactory: PConverterFactory {
         JSONConverterFactory(jsonEncoder: jsonEncoder, jsonDecoder: jsonDecoder)
     }
     
+    //============================================
+    
     init(jsonEncoder:JSONEncoder,jsonDecoder:JSONDecoder) {
         self.jsonEncoder = jsonEncoder
         self.jsonDecoder = jsonDecoder
     }
     
-    func resquestBodyConverter() -> PConverter<F, T, J> {
-        return JSONEncoderRequestBodyConverter(convertor: jsonEncoder)
+    //============================================
+    
+    func resquestBodyConverter() -> (any PConverter<Any, any PRequestBody>)? {
+        return JSONEncoderRequestBodyConverter(jsonEncoder: jsonEncoder)
     }
     
-    func responseBodyConverter() -> any PConverter<Data,Decodable,JSONDecoder> {
-        return JSONDecoderResponseConverter(converter: jsonDecoder)
+    func responseBodyConverter() -> (any PConverter<any PResponseBody, Any>)? {
+        return JSONDecoderResponseConverter(jsonDecoder: jsonDecoder)
     }
 }
