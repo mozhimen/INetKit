@@ -4,7 +4,6 @@
 //
 //  Created by Taiyou on 2025/7/8.
 //
-
 @propertyWrapper
 public struct Path<T: CustomStringConvertible> {
     public let wrappedValue: T
@@ -21,13 +20,10 @@ public struct Path<T: CustomStringConvertible> {
     }
 }
 
-extension Path: HttpRequestParameter {
-    func fillHttpRequestFields(
-        forParameterWithName paramName: String,
-        in builder: HttpRequestParams.Builder
-    ) throws {
+extension Path: PRequestFactory {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
         let pathComponentName = customParamName ?? paramName
         let pathComponentValue = wrappedValue.description
-        builder.set(pathComponent: "{\(pathComponentName)}", filledWith: pathComponentValue)
+        builder.addPathComponent(pathComponent: "{\(pathComponentName)}", filledWith: pathComponentValue)
     }
 }

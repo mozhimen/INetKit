@@ -17,13 +17,10 @@ public struct Body<T: Encodable> {
     }
 }
 
-extension JsonBody: HttpRequestParameter {
-    func fillHttpRequestFields(
-        forParameterWithName paramName: String,
-        in builder: HttpRequestParams.Builder
-    ) throws {
+extension Body: PRequestFactory {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
         let body = try encoder.encode(wrappedValue)
-        builder.set(body: body)
-        builder.add(headerParams: ["Content-Type": "application/json"])
+        builder.setBody(body: body)
+        builder.addHeaders(headers:  ["Content-Type": "application/json"])
     }
 }

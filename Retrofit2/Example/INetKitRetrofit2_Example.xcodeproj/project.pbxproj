@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F7175A9E2E1CB41C00336F76 /* Retrofit2 in Frameworks */ = {isa = PBXBuildFile; productRef = F7175A9D2E1CB41C00336F76 /* Retrofit2 */; };
+		F7175B492E1E46F200336F76 /* Retrofit2 in Frameworks */ = {isa = PBXBuildFile; productRef = F7175B482E1E46F200336F76 /* Retrofit2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7175A9E2E1CB41C00336F76 /* Retrofit2 in Frameworks */,
+				F7175B492E1E46F200336F76 /* Retrofit2 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +70,7 @@
 			);
 			name = INetKitRetrofit2_Example;
 			packageProductDependencies = (
-				F7175A9D2E1CB41C00336F76 /* Retrofit2 */,
+				F7175B482E1E46F200336F76 /* Retrofit2 */,
 			);
 			productName = INetKitRetrofit2_Example;
 			productReference = F779D1142E1CB34600F9750A /* INetKitRetrofit2_Example.app */;
@@ -102,6 +102,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F7175A9C2E1CB41C00336F76 /* XCLocalSwiftPackageReference "../../Retrofit2" */,
+				F7175B172E1E19BA00336F76 /* XCLocalSwiftPackageReference "../../Retrofit2_Optional" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F779D1152E1CB34600F9750A /* Products */;
@@ -350,10 +351,14 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../Retrofit2;
 		};
+		F7175B172E1E19BA00336F76 /* XCLocalSwiftPackageReference "../../Retrofit2_Optional" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Retrofit2_Optional;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F7175A9D2E1CB41C00336F76 /* Retrofit2 */ = {
+		F7175B482E1E46F200336F76 /* Retrofit2 */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Retrofit2;
 		};

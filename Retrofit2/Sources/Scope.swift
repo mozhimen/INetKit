@@ -6,44 +6,44 @@
 //
 import Foundation
 
-open class Retrofit2Scope {
-    let transport: HttpTransport
+open class Scope {
+    private let _retrofit: Retrofit
     
     //===============================================>
 
-    public init(transport: HttpTransport) {
-        self.transport = transport
+    public init(retrofit: Retrofit) {
+        self._retrofit = retrofit
     }
 
     //===============================================>
     
     open func perform<Request, Response: Decodable>(
         request: Request,
-        to endpoint: EndpointDescribing,
+        use method: PMethod,
         customHeaders: [String: String]? = nil
     ) async throws -> Response {
-        let requestBuilder = HttpRequestParams.Builder()
-        requestBuilder.set(httpMethod: endpoint.method)
-        requestBuilder.set(path: endpoint.path)
+        let requestBuilder = RequestBuilder.Builder()
+        requestBuilder.setMethod(method: method.method)
+        requestBuilder.setPath(path: method.path)
 
         try Mirror(reflecting: request)
             .children
             .compactMap { child in
                 guard let paramName = child.label,
-                      let param = child.value as? PRequestBuilder
+                      let param = child.value as? PRequestFactory
                 else { return nil }
                 return (paramName, param)
             }
-            .forEach { (paramName: String, builder: PRequestBuilder) in
-                try builder.fillHttpRequestFields(forParameterWithName: paramName, in: requestBuilder)
+            .forEach { (paramName: String, builder: PRequestFactory) in
+                try builder.parseRequestFields(forParameterWithName: paramName, in: requestBuilder)
             }
 
         if let customHeaders {
-            requestBuilder.add(headerParams: customHeaders)
+            requestBuilder.addHeaders(headers: customHeaders)
         }
 
-        let requestParams = try requestBuilder.buildRequestParams()
-        let operationResult = try await transport.sendRequest(with: requestParams)
+        let requestParams = try requestBuilder.build()
+        let operationResult = try await _retrofit.sendRequest(with: requestParams)
         let responseData = try operationResult.response.get()
 
         if responseData.isEmpty, Response.self is Empty.Type {

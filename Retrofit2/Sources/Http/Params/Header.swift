@@ -21,13 +21,10 @@ public struct Header<T: CustomStringConvertible> {
     }
 }
 
-extension Header: HttpRequestParameter {
-    func fillHttpRequestFields(
-        forParameterWithName paramName: String,
-        in builder: HttpRequestParams.Builder
-    ) throws {
+extension Header: PRequestFactory {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
         let headerParamName = customParamName ?? paramName
         let headerParamValue = wrappedValue.description
-        builder.add(headerParams: [headerParamName: headerParamValue])
+        builder.addHeaders(headers: [headerParamName: headerParamValue])
     }
 }

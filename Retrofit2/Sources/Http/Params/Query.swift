@@ -21,13 +21,10 @@ public struct Query<T: CustomStringConvertible> {
     }
 }
 
-extension Query: HttpRequestParameter {
-    func fillHttpRequestFields(
-        forParameterWithName paramName: String,
-        in builder: HttpRequestParams.Builder
-    ) throws {
+extension Query: PRequestFactory {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
         let queryParamName = customParamName ?? paramName
         let queryParamValue = wrappedValue.description
-        builder.add(queryParams: [queryParamName: queryParamValue])
+        builder.addQuerys(querys: [queryParamName: queryParamValue])
     }
 }
