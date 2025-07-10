@@ -6,104 +6,95 @@
 //
 import Retrofit2
 import Foundation
+import SUtilKit
 
-final class UrlSessionTransport: HttpTransport {
-    func setConfiguration(scheme: String, host: String, sharedHeaders: [String: String]?) {
-        self.scheme = scheme
-        self.host = host
-        self.sharedHeaders = sharedHeaders
-    }
+final class UrlSessionTransport: PRetrofit {
+    private var _strScheme: String?
+    private var _strHost: String?
+    private var _strHeadersShared: [String: String]?
 
-    func sendRequest(with params: HttpRequestParams) async throws -> HttpOperationResult {
-        do {
-            let urlRequest = try assembleURLRequest(
-                httpMethod: params.httpMethod.asString,
-                path: params.path,
-                headerParams: params.headerParams,
-                queryParams: params.queryParams,
-                body: params.body)
-
-            return await self.perform(request: urlRequest)
-        } catch {
-            return HttpOperationResult(
-                statusCode: nil,
-                headers: nil,
-                response: .failure(error)
-            )
-        }
-    }
-
-    private var scheme: String?
-    private var host: String?
-    private var sharedHeaders: [String: String]?
-
-    private lazy var urlSession = URLSession(
+    private lazy var _uRLSession = URLSession(
         configuration: {
             let configuration = URLSessionConfiguration.default
             configuration.timeoutIntervalForRequest = 30
             configuration.timeoutIntervalForResource = 300
-            configuration.httpAdditionalHeaders = sharedHeaders
+            configuration.httpAdditionalHeaders = _strHeadersShared
             return configuration
         }()
     )
-}
-
-private extension UrlSessionTransport {
-    func assembleURLRequest(
-        httpMethod: String,
-        path: String,
-        headerParams: [String: String]?,
-        queryParams: [String: String]?,
-        body: Data?
+    
+    ///=====================================================================>
+    
+    func configuration(strScheme: String, strHost: String, strHeadersShared: [String: String]?) {
+        self._strScheme = strScheme
+        self._strHost = strHost
+        self._strHeadersShared = strHeadersShared
+    }
+    
+    func request(with requestBuilder: RequestBuilder) async throws -> ENetKRes {
+        do {
+            let uRLRequest = try buildURLRequest(
+                strMethod: requestBuilder.method.method2strMethod(),
+                strPath: requestBuilder.strPath,
+                body: requestBuilder.body,
+                strHeaders: requestBuilder.strHeaders,
+                strQuerys: requestBuilder.strQuerys
+            )
+            return await dataTaskAsync(uRLRequest: uRLRequest)
+        } catch {
+            return ENetKRes.Error(error)
+        }
+    }
+    
+    func buildURLRequest(
+        strMethod: String,
+        strPath: String,
+        body: Data?,
+        strHeaders: [String: String]?,
+        strQuerys: [String: String]?
     ) throws -> URLRequest {
         var urlComponents = URLComponents()
-
-        urlComponents.scheme = scheme
-        urlComponents.host = host
-        urlComponents.path = path
-        urlComponents.queryItems = queryParams?.map(URLQueryItem.init)
-
+        //
+        urlComponents.scheme = _strScheme
+        urlComponents.host = _strHost
+        urlComponents.path = strPath
+        urlComponents.queryItems = strQuerys?.map(URLQueryItem.init)
         guard let url = urlComponents.url else {
             throw URLError(.badURL)
         }
-
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod
-
-        headerParams?.forEach { key, value in
-            urlRequest.setValue(value, forHTTPHeaderField: key)
+        //
+        var uRLRequest = URLRequest(url: url)
+        uRLRequest.httpMethod = strMethod
+        strHeaders?.forEach { key, value in
+            uRLRequest.setValue(value, forHTTPHeaderField: key)
         }
-
-        urlRequest.httpBody = body
-
-        return urlRequest
+        uRLRequest.httpBody = body
+        //
+        return uRLRequest
     }
-}
 
-private extension UrlSessionTransport {
-    func perform(request: URLRequest) async -> HttpOperationResult {
+    func dataTaskAsync(
+        uRLRequest: URLRequest
+    ) async -> ENetKRes {
         await withCheckedContinuation { [weak self] continuation in
-            self?.dataTask(request: request, continuation: continuation)
+            self?.dataTask(uRLRequest: uRLRequest, checkedContinuation: continuation)
                 .resume()
         }
     }
-
+    
     func dataTask(
-        request: URLRequest,
-        continuation: CheckedContinuation<HttpOperationResult, Never>
+        uRLRequest: URLRequest,
+        checkedContinuation: CheckedContinuation<ENetKRes, Never>
     ) -> URLSessionDataTask {
-
-        print(request.customDescription)
-
-        return urlSession.dataTask(with: request) { data, response, error in
-            print(Self.responseDescription(forData: data, response: response, error: error))
-
-            let httpResponse = response as? HTTPURLResponse
-            let statusCode = httpResponse?.statusCode
-
+        print(uRLRequest.uRLRequest2str())
+        //
+        return _uRLSession.dataTask(with: uRLRequest) { data, uRLResponse, error in
+            print(uRLResponse2str(uRLResponse: uRLResponse, data: data, error: error))
+            //
+            let hTTPURLResponse = uRLResponse as? HTTPURLResponse
+            let statusCode = hTTPURLResponse?.statusCode
             var headers: [String: String]?
-
-            if let allHeaderFields = httpResponse?.allHeaderFields {
+            if let allHeaderFields = hTTPURLResponse?.allHeaderFields {
                 headers = .init(minimumCapacity: allHeaderFields.count)
                 allHeaderFields.forEach {
                     let key = String(describing: $0.key)
@@ -111,74 +102,18 @@ private extension UrlSessionTransport {
                     headers?[key] = value
                 }
             }
-
-            let operationResult = HttpOperationResult(
-                statusCode: statusCode,
-                headers: headers,
-                response: error != nil ?
-                    .failure(error!) :
-                        .success(data ?? Data())
-            )
-
-            continuation.resume(returning: operationResult)
+            //
+            let eNetKRes:ENetKRes
+            if let error {
+                eNetKRes = ENetKRes.Error(error)
+            }else{
+                if let data {
+                    eNetKRes = ENetKRes.Success(MResultIST(code: statusCode, msg: "", t:   data))
+                }else{
+                    eNetKRes = ENetKRes.Empty
+                }
+            }
+            checkedContinuation.resume(returning: eNetKRes)
         }
-    }
-}
-
-private extension HttpMethod {
-    var asString: String {
-        switch self {
-        case .delete: return "DELETE"
-        case .get: return "GET"
-        case .head: return "HEAD"
-        case .patch: return "PATCH"
-        case .post: return "POST"
-        case .put: return "PUT"
-        }
-    }
-}
-
-private extension UrlSessionTransport {
-    static func responseDescription(forData data: Data?, response: URLResponse?, error: Error?) -> String {
-        var description = [] as [String]
-
-        description.append("Response:")
-        description.append(response?.description ?? "")
-
-        if let error {
-            description.append("Error:")
-            description.append(error.localizedDescription)
-        } else {
-            description.append("Body:")
-            description.append(String(data: data ?? Data(), encoding: .utf8) ?? "Empty")
-        }
-
-        return description.joined(separator: "\n")
-    }
-}
-
-private extension URLRequest {
-    var customDescription: String {
-        var description = [] as [String]
-
-        description.append("Request:")
-
-        if let httpMethod {
-            description.append("Method: \(httpMethod)")
-        }
-
-        if let url {
-            description.append("URL: \(url)")
-        }
-
-        if let allHTTPHeaderFields, !allHTTPHeaderFields.isEmpty {
-            description.append("Headers: \(allHTTPHeaderFields)")
-        }
-
-        if let httpBody, let bodyDescription = String(data: httpBody, encoding: .utf8) {
-            description.append("Body: \(bodyDescription)")
-        }
-
-        return description.joined(separator: "\n")
     }
 }

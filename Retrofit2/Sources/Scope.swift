@@ -7,25 +7,44 @@
 import Foundation
 
 open class Scope {
-    private let _retrofit: Retrofit
+    private let _retrofit: PRetrofit
     
     //===============================================>
 
-    public init(retrofit: Retrofit) {
+    public init(retrofit: PRetrofit) {
         self._retrofit = retrofit
     }
 
     //===============================================>
     
-    open func perform<Request, Response: Decodable>(
-        request: Request,
+    open func create<REQ, RES: Decodable>(
         use method: PMethod,
-        customHeaders: [String: String]? = nil
-    ) async throws -> Response {
-        let requestBuilder = RequestBuilder.Builder()
-        requestBuilder.setMethod(method: method.method)
-        requestBuilder.setPath(path: method.path)
+        request: REQ
+//        customHeaders: [String: String]? = nil
+    ) async throws -> RES {
+        let requestParams = try buildRequest(use: method, request: request)
+        let eNetKRes = try await _retrofit.request(with: requestParams)
+        let responseData = try operationResult.response.get()
 
+        if responseData.isEmpty, Response.self is Empty.Type {
+            // swiftlint:disable:next force_cast
+            return Empty() as! Response
+        } else {
+            return try JSONDecoder().decode(Response.self, from: responseData)
+        }
+    }
+    
+    private func buildRequest<REQ>(
+        use method: PMethod,
+        request: REQ
+    ) throws ->RequestBuilder{
+        //===========================================>
+        let requestBuilder = RequestBuilder.Builder()
+        //method
+        requestBuilder.setMethod(method: method.method)
+        //path
+        requestBuilder.setPath(path: method.path)
+        //others
         try Mirror(reflecting: request)
             .children
             .compactMap { child in
@@ -37,20 +56,10 @@ open class Scope {
             .forEach { (paramName: String, builder: PRequestFactory) in
                 try builder.parseRequestFields(forParameterWithName: paramName, in: requestBuilder)
             }
-
-        if let customHeaders {
-            requestBuilder.addHeaders(headers: customHeaders)
-        }
-
-        let requestParams = try requestBuilder.build()
-        let operationResult = try await _retrofit.sendRequest(with: requestParams)
-        let responseData = try operationResult.response.get()
-
-        if responseData.isEmpty, Response.self is Empty.Type {
-            // swiftlint:disable:next force_cast
-            return Empty() as! Response
-        } else {
-            return try JSONDecoder().decode(Response.self, from: responseData)
-        }
+        //headers
+//        if let customHeaders {
+//            requestBuilder.addHeaders(headers: customHeaders)
+//        }
+        return try requestBuilder.build()
     }
 }

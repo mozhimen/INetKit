@@ -5,7 +5,7 @@
 //  Created by Taiyou on 2025/7/8.
 //
 
-struct FindArtistResponse: Decodable {
+struct FindArtistRes: Decodable {
     let artistId: String?
     let name: String
     let url: String

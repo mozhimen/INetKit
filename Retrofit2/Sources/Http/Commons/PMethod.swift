@@ -7,5 +7,5 @@
 
 public protocol PMethod {
     var path: String { get }
-    var method: HttpMethod { get }
+    var method: Method { get }
 }

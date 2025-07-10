@@ -30,7 +30,7 @@ extension Scope {
         ) -> IAsyncThrowA_BListener<REQ,Empty> {
             get {
                 let method = scope[keyPath: methodKeyPath]
-                return method._customAction ?? { try await scope.perform(request: $0, use: method) }
+                return method._customAction ?? { try await scope.create(use: method,request: $0) }
             }
             set {
                 let endpoint = scope[keyPath: methodKeyPath]

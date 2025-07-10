@@ -4,10 +4,12 @@
 //
 //  Created by Taiyou on 2025/7/8.
 //
+import SUtilKit
+import Foundation
 
-public protocol Retrofit {
-    func setConfiguration(scheme: String, host: String, sharedHeaders: [String: String]?)
-    func sendRequest(with requestBuilder: RequestBuilder) async throws -> MResultIST<>
+public protocol PRetrofit {
+//    func setConfiguration(scheme: String, host: String, sharedHeaders: [String: String]?)
+    func request(with requestBuilder: RequestBuilder) async throws -> ENetKRes<Data>//MResultIST<Data>
 }
 
 /**

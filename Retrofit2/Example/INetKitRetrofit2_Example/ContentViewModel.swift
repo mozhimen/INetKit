@@ -15,7 +15,7 @@ final class ContentViewModel:ObservableObject{
     @Published var artist = "Molchat Doma"
     @Published var corruptAppId = false
     @Published private(set) var details = ""
-    private let api = BandsInTownApi(transport: UrlSessionTransport())
+    private let api = Apis(transport: UrlSessionTransport())
     
     func find() {
         Task {
@@ -23,15 +23,21 @@ final class ContentViewModel:ObservableObject{
             details = ""
 
             do {
-                let artistDetailsRequest = FindArtistRequest(artistName: artist, appId: "123")
-                let artistDetails = try await api.findArtist(artistDetailsRequest)
+                let artistDetailsReq = FindArtistReq(
+                    artistName: artist,
+                    appId: "123")
+                let artistDetailsRes = try await api.findArtist(artistDetailsReq)
 
-                let artistEventsRequest = ArtistEventsRequest(
+                //========================================================================>
+                
+                let artistEventsReq = ArtistEventsReq(
                     artistName: artist,
                     appId: corruptAppId ? "fffff" : "123",
                     date: "2023-05-05,2023-09-05")
-                let eventsResponse = try await api.artistEvents(artistEventsRequest)
+                let articleEventsRes = try await api.artistEvents(artistEventsReq)
 
+                //========================================================================>
+                
                 switch eventsResponse {
                 case .response(let events):
                     details = "\(artistDetails.description)\n\nEvents:\n\(events.description)"

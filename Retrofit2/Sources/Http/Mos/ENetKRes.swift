@@ -4,15 +4,15 @@
 //
 //  Created by Taiyou on 2025/7/9.
 //
+import Foundation
+import SUtilKit
 
-extension Scope{
-    enum SNetKRes<T>{
-        case Uninitialzed
-        case Loading
-        case Empty(Empty)
-        case Success(T)
-        case Error(Error)
-    }
+public enum ENetKRes{
+    case Uninitialzed
+    case Loading
+    case Empty
+    case Success(MResultIST<Data>)
+    case Error(Error)
 }
 
 //extension Domain {

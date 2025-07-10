@@ -7,7 +7,7 @@
 import Retrofit2
 import Foundation
 
-struct ArtistEventsRequest {
+struct ArtistEventsReq {
     @Path("artist_name") var artistName: String = ""
     @Query("app_id") var appId: String = ""
     @Query var date: String
