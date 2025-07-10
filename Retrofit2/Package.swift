@@ -4,21 +4,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "Retrofit2",
+    name: "INetKit.Retrofit2",
     platforms: [.macOS(.v10_15),.iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Retrofit2",
-            targets: ["Retrofit2"]),
+            name: "INetKit.Retrofit2",
+            targets: ["INetKit.Retrofit2"]),
     ],
     dependencies: [
-        .package(name: "SUtilKit", path: "../../SUtilKit")
+        .package(name: "SUtilKit.SwiftUI", path: "../../SUtilKit/SwiftUI")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Retrofit2",dependencies: ["SUtilKit"]),
+            name: "INetKit.Retrofit2",dependencies: ["SUtilKit.SwiftUI"]),
     ]
 )

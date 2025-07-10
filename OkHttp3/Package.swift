@@ -4,25 +4,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "INetKit",
+    name: "INetKit.OkHttp3",
     platforms: [
         .macOS(.v12),.iOS(.v15)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "INetKit",
-            targets: ["INetKit"]),
+            name: "INetKit.OkHttp3",
+            targets: ["INetKit.OkHttp3"]),
     ],
     dependencies: [
 //        .package(name: "SUtilKit", path:"../SUtilKit"),	
-        .package(name: "ISwiftKit", path:"../ISwiftKit"),
+        .package(name: "ISwiftKit.Service", path:"../../ISwiftKit/Service"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "INetKit",dependencies: ["ISwiftKit"]),
+            name: "INetKit.OkHttp3",dependencies: ["ISwiftKit.Service"]),
 
     ]
 )
