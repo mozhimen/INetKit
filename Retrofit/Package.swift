@@ -4,25 +4,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "INetKit.Concurrency",
-    platforms: [
-        .macOS(.v12),.iOS(.v15)
-    ],
+    name: "INetKit.Retrofit",
+    platforms: [.macOS(.v10_15),.iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "INetKit.Concurrency",
-            targets: ["INetKit.Concurrency"]),
+            name: "INetKit.Retrofit",
+            targets: ["INetKit.Retrofit"]),
     ],
     dependencies: [
-//        .package(name: "SUtilKit", path:"../SUtilKit"),	
-        .package(name: "ISwiftKit.ServiceKit", path:"../../ISwiftKit/ServiceKit"),
+        .package(name: "SUtilKit.SwiftUI", path: "../../SUtilKit/SwiftUI"),
+        .package(name: "INetKit.OkHttp", path: "../OkHttp")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "INetKit.Concurrency",dependencies: ["ISwiftKit.ServiceKit"]),
-
+            name: "INetKit.Retrofit",dependencies: ["SUtilKit.SwiftUI","INetKit.OkHttp"]),
     ]
 )
