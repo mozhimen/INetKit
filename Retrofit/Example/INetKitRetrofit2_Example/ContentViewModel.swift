@@ -6,16 +6,22 @@
 //
 import Foundation
 import Combine
-import Retrofit2
+import INetKit_Retrofit
 
 @MainActor
 final class ContentViewModel:ObservableObject{
+
+    
     @Published private(set) var loading = false
+    @Published private(set) var details = ""
+    
     @Published var error = nil as String?
     @Published var artist = "Molchat Doma"
     @Published var corruptAppId = false
-    @Published private(set) var details = ""
-    private let api = Apis(transport: ())
+
+    private let _api = Apis(retrofit: Retroft.Builder().setStrScheme("https").setStrHost("rest.bandsintown.com").build())
+    
+    //========================================================================>
     
     func find() {
         Task {
@@ -23,25 +29,23 @@ final class ContentViewModel:ObservableObject{
             details = ""
 
             do {
-                let artistDetailsReq = FindArtistReq(
+                let artistDetailsRes = try await _api.findArtist(FindArtistReq(
                     artistName: artist,
-                    appId: "123")
-                let artistDetailsRes = try await api.findArtist(artistDetailsReq)
+                    appId: "123"))
 
                 //========================================================================>
                 
-                let artistEventsReq = ArtistEventsReq(
+                let articleEventsRes = try await _api.artistEvents(ArtistEventsReq(
                     artistName: artist,
                     appId: corruptAppId ? "fffff" : "123",
-                    date: "2023-05-05,2023-09-05")
-                let articleEventsRes = try await api.artistEvents(artistEventsReq)
+                    date: "2023-05-05,2023-09-05"))
 
                 //========================================================================>
                 
-                switch eventsResponse {
-                case .response(let events):
-                    details = "\(artistDetails.description)\n\nEvents:\n\(events.description)"
-                case .errorResponse(let errorResponse):
+                switch articleEventsRes {
+                case .success(let events):
+                    details = "\(artistDetailsRes.description)\n\nEvents:\n\(events.description)"
+                case .error(let errorResponse):
                     error = errorResponse.errorMessage
                 }
             } catch {
@@ -53,17 +57,5 @@ final class ContentViewModel:ObservableObject{
     }
 }
 
-private extension FindArtistResponse {
-    var description: String {
-        [name, url].joined(separator: "\n")
-    }
-}
 
-private extension ArtistEventsResponse {
-    var description: String {
-        eventsList
-            .map { event in [event.dateTime] + event.lineup }
-            .map { $0.joined(separator: "\n") }
-            .joined(separator: "\n\n")
-    }
-}
+

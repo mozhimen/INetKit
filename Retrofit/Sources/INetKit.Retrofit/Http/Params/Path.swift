@@ -21,7 +21,7 @@ public struct Path<T: CustomStringConvertible> {
 }
 
 extension Path: PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: Request.Builder, by retrofit: any PRetrofit) throws {
         let pathComponentName = customParamName ?? paramName
         let pathComponentValue = wrappedValue.description
         builder.addStrPathComponent(strPathComponent: "{\(pathComponentName)}", filledWith: pathComponentValue)

@@ -31,7 +31,7 @@ extension Request {
 
         //======================================================>
         
-        func build() throws -> RequestBuilder {
+        func build() throws -> Request {
             guard let method = _method else { throw BuilderError.HttpMethod_NotSet }
             guard var strPath = _strPath else { throw BuilderError.Path_NotSet }
 
@@ -39,7 +39,7 @@ extension Request {
                 strPath = strPath.replacingOccurrences(of: pathComponent, with: value)
             }
 
-            return RequestBuilder(
+            return Request(
                 method: method,
                 strPath: strPath,
                 strHeaders: _strHeaders,

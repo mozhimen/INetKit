@@ -5,7 +5,7 @@
 //  Created by Taiyou on 2025/7/8.
 //
 
-struct ArtistEventsRes: Decodable {
+struct ArtistEventsRes: Decodable,Sendable {
     let eventsList: [Event]
 
     struct Event: Decodable {
@@ -54,3 +54,13 @@ extension ArtistEventsRes {
         eventsList = try container.decode([Event].self)
     }
 }
+
+extension ArtistEventsRes {
+    var description: String {
+        eventsList
+            .map { event in [event.dateTime] + event.lineup }
+            .map { $0.joined(separator: "\n") }
+            .joined(separator: "\n\n")
+    }
+}
+

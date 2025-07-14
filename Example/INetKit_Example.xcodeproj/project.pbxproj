@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		F72759412E13D91D00530776 /* INetKit in Frameworks */ = {isa = PBXBuildFile; productRef = F72759402E13D91D00530776 /* INetKit */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		F765A0252E13C45000FA611D /* INetKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = INetKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -27,7 +23,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F72759412E13D91D00530776 /* INetKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +65,6 @@
 			);
 			name = INetKit_Example;
 			packageProductDependencies = (
-				F72759402E13D91D00530776 /* INetKit */,
 			);
 			productName = INetKit_Example;
 			productReference = F765A0252E13C45000FA611D /* INetKit_Example.app */;
@@ -351,13 +345,6 @@
 			relativePath = ../../INetKit;
 		};
 /* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		F72759402E13D91D00530776 /* INetKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = INetKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F765A01D2E13C45000FA611D /* Project object */;
 }

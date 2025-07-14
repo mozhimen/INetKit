@@ -8,30 +8,29 @@ import Foundation
 import SUtilKit_SwiftUI
 
 public enum Response{
-    case Uninitialzed
-    case Loading
+//    case Uninitialzed
+//    case Loading
     case Empty
     case Success(MResultIST<Data>)
     case Error(Error)
 }
 
-//extension Domain {
-//    public enum Either<Response, ErrorResponse>: Decodable,Sendable where Response:Decodable ,Response:Sendable, ErrorResponse:Decodable,ErrorResponse:Sendable{
-//        case response(Response)
-//        case errorResponse(ErrorResponse)
-//    }
-//}
-//
-//extension Domain.Either {
-//    public init(from decoder: Decoder) throws {
-//        let container = try decoder.singleValueContainer()
-//
-//        if let value = try? container.decode(Response.self) {
-//            self = .response(value)
-//        } else {
-//            let errorValue = try container.decode(ErrorResponse.self)
-//            self = .errorResponse(errorValue)
-//        }
-//    }
-//}
-//public struct Empty: Decodable { }
+public struct Nothing: Decodable { }
+
+public enum ResponseOptional<S:Decodable & Sendable,E:Decodable & Sendable>:Decodable,Sendable{
+    case success(S)
+    case error(E)
+}
+
+public extension ResponseOptional{
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+
+        if let s = try? container.decode(S.self) {
+            self = .success(s)
+        } else {
+            let e = try container.decode(E.self)
+            self = .error(e)
+        }
+    }
+}

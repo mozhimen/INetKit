@@ -4,6 +4,7 @@
 //
 //  Created by Taiyou on 2025/7/4.
 //
+import Foundation
 
 public protocol PConverter<F,T> {
     associatedtype F

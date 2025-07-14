@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F7175BD62E1F5F4200336F76 /* Retrofit2 in Frameworks */ = {isa = PBXBuildFile; productRef = F7175BD52E1F5F4200336F76 /* Retrofit2 */; };
-		F7E66E562E20E0A4001A0C1A /* INetKit.Retrofit2.CallAdapter.URLSession in Frameworks */ = {isa = PBXBuildFile; productRef = F7E66E552E20E0A4001A0C1A /* INetKit.Retrofit2.CallAdapter.URLSession */; };
-		F7E66E592E20E766001A0C1A /* INetKit.Retrofit2 in Frameworks */ = {isa = PBXBuildFile; productRef = F7E66E582E20E766001A0C1A /* INetKit.Retrofit2 */; };
+		F77C6F6E2E24F5AB00ECBBE4 /* INetKit.Retrofit in Frameworks */ = {isa = PBXBuildFile; productRef = F77C6F6D2E24F5AB00ECBBE4 /* INetKit.Retrofit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7175BD62E1F5F4200336F76 /* Retrofit2 in Frameworks */,
-				F7E66E562E20E0A4001A0C1A /* INetKit.Retrofit2.CallAdapter.URLSession in Frameworks */,
-				F7E66E592E20E766001A0C1A /* INetKit.Retrofit2 in Frameworks */,
+				F77C6F6E2E24F5AB00ECBBE4 /* INetKit.Retrofit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,9 +70,7 @@
 			);
 			name = INetKitRetrofit2_Example;
 			packageProductDependencies = (
-				F7175BD52E1F5F4200336F76 /* Retrofit2 */,
-				F7E66E552E20E0A4001A0C1A /* INetKit.Retrofit2.CallAdapter.URLSession */,
-				F7E66E582E20E766001A0C1A /* INetKit.Retrofit2 */,
+				F77C6F6D2E24F5AB00ECBBE4 /* INetKit.Retrofit */,
 			);
 			productName = INetKitRetrofit2_Example;
 			productReference = F779D1142E1CB34600F9750A /* INetKitRetrofit2_Example.app */;
@@ -107,8 +101,7 @@
 			mainGroup = F779D10B2E1CB34600F9750A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F7E66E542E20E0A4001A0C1A /* XCLocalSwiftPackageReference "../CallAdapter/URLSession" */,
-				F7E66E572E20E766001A0C1A /* XCLocalSwiftPackageReference "../../Retrofit2" */,
+				F77C6F6C2E24F5AA00ECBBE4 /* XCLocalSwiftPackageReference "../../Retrofit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F779D1152E1CB34600F9750A /* Products */;
@@ -353,28 +346,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		F7E66E542E20E0A4001A0C1A /* XCLocalSwiftPackageReference "../CallAdapter/URLSession" */ = {
+		F77C6F6C2E24F5AA00ECBBE4 /* XCLocalSwiftPackageReference "../../Retrofit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../CallAdapter/URLSession;
-		};
-		F7E66E572E20E766001A0C1A /* XCLocalSwiftPackageReference "../../Retrofit2" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../Retrofit2;
+			relativePath = ../../Retrofit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F7175BD52E1F5F4200336F76 /* Retrofit2 */ = {
+		F77C6F6D2E24F5AB00ECBBE4 /* INetKit.Retrofit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Retrofit2;
-		};
-		F7E66E552E20E0A4001A0C1A /* INetKit.Retrofit2.CallAdapter.URLSession */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = INetKit.Retrofit2.CallAdapter.URLSession;
-		};
-		F7E66E582E20E766001A0C1A /* INetKit.Retrofit2 */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = INetKit.Retrofit2;
+			productName = INetKit.Retrofit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

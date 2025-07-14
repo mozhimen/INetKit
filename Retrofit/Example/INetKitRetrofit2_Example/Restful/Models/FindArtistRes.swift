@@ -28,3 +28,9 @@ struct FindArtistRes: Decodable {
         case upcomingEventCount = "upcoming_event_count"
     }
 }
+
+extension FindArtistRes {
+    var description: String {
+        [name, url].joined(separator: "\n")
+    }
+}

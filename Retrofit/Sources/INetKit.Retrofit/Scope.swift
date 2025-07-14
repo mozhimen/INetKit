@@ -5,6 +5,7 @@
 //  Created by Taiyou on 2025/7/8.
 //
 import Foundation
+import SUtilKit_SwiftUI
 
 open class Scope<R:PRetrofit> {
     private let _retrofit: R
@@ -20,19 +21,25 @@ open class Scope<R:PRetrofit> {
     open func create<REQ, RES: Decodable>(
         method: PMethod,
         request: REQ
-    ) async throws -> RES {
-        let request = try buildRequest(use: method, request: request)
-        let response = try await _retrofit.callAdapterFactory.get(retrofit: _retrofit).adapt(call: _retrofit)
+    ) async throws -> RES? {
+        let request:Request = try buildRequest(use: method, request: request)
+        let response:Response = try await _retrofit.callAdapterFactory.get().call(request: request)
         switch response {
-        case.Success(let data): {
-            return try JSONDecoder.decode(RES,from: <#T##Data#>)
-        }
-        }
-        if responseData.isEmpty, Response.self is Empty.Type {
-            // swiftlint:disable:next force_cast
-            return Empty() as! Response
-        } else {
-            return try JSONDecoder().decode(Response.self, from: responseData)
+        case.Success(let data):
+            print("response is Success")
+            if RES.self is MResultIST<RES>.Type {
+                return response as! RES
+            }
+            guard let t = data.t else {
+                return nil
+            }
+            return try _retrofit.converterFactory.responseBodyConverter()!.convert(t) as! RES
+        case.Empty:
+            print("response is Empty")
+            return nil
+        case.Error(let error):
+            print("response is Error \(error)")
+            return nil
         }
     }
     
@@ -41,9 +48,9 @@ open class Scope<R:PRetrofit> {
     private func buildRequest<REQ>(
         use method: PMethod,
         request: REQ
-    ) throws ->RequestBuilder{
+    ) throws ->Request{
         //===========================================>
-        let requestBuilder = RequestBuilder.Builder()
+        let requestBuilder = Request.Builder()
         //method
         requestBuilder.setMethod(method: method.method)
         //path

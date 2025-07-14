@@ -7,32 +7,32 @@
 import Foundation
 
 class JSONDecoderResponseConverter : PConverter{
-    typealias F = PResponseBody
+    typealias F = Data
     typealias T = Any
     private let _jsonDecoder: JSONDecoder
     
     init(jsonDecoder:JSONDecoder) {
-        self.jsonDecoder = jsonDecoder
+        self._jsonDecoder = jsonDecoder
     }
     
-    func convert(_ from: PResponseBody) throws -> T {
-        guard let data = from.data else {
-            throw DecodingError.dataCorrupted(
-                DecodingError.Context(
-                    codingPath: [],
-                    debugDescription: "响应体没有数据"
-                )
-            )
-        }
+    func convert(_ from: Data) throws -> T {
+//        guard let from else {
+//            throw DecodingError.dataCorrupted(
+//                DecodingError.Context(
+//                    codingPath: [],
+//                    debugDescription: "响应体没有数据"
+//                )
+//            )
+//        }
         
         // 如果 T 是 Data，直接返回
         if T.self == Data.self {
-            return data
+            return from
         }
         
         // 如果 T 是 String，尝试解码成字符串
         if T.self == String.self {
-            guard let string = String(data: data, encoding: .utf8) else {
+            guard let string = String(data: from, encoding: .utf8) else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: [],
@@ -54,6 +54,6 @@ class JSONDecoderResponseConverter : PConverter{
             )
         }
         
-        return try jsonDecoder.decode(decodableType, from: data)
+        return try _jsonDecoder.decode(decodableType, from: from)
     }
 }

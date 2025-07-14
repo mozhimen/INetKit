@@ -4,14 +4,15 @@
 //
 //  Created by Taiyou on 2025/7/8.
 //
-import Retrofit2
+import INetKit_Retrofit
+import SUtilKit_SwiftUI
 
-final class Apis: Scope {
+final class Apis: Scope<Retroft> {
     @GET("/artists/{artist_name}")
     var findArtist: (FindArtistReq) async throws -> FindArtistRes
 
     @GET("/artists/{artist_name}/events")
-    var artistEvents: (ArtistEventsReq) async throws -> ArtistEventsRes///*Either<*/ArtistEventsRes/*, ArtistEventsErrorResponse>*/
+    var artistEvents: (ArtistEventsReq) async throws -> ResponseOptional<ArtistEventsRes,ArtistEventsErrorRes>///*Either<*/ArtistEventsRes/*, ArtistEventsErrorResponse>*/
 }
 
 /**

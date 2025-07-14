@@ -13,13 +13,12 @@ let package = Package(
             targets: ["INetKit.Retrofit"]),
     ],
     dependencies: [
-        .package(name: "SUtilKit.SwiftUI", path: "../../SUtilKit/SwiftUI"),
-        .package(name: "INetKit.OkHttp", path: "../OkHttp")
+        .package(name: "SUtilKit.SwiftUI", path: "../../SUtilKit/SwiftUI")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "INetKit.Retrofit",dependencies: ["SUtilKit.SwiftUI","INetKit.OkHttp"]),
+            name: "INetKit.Retrofit",dependencies: ["SUtilKit.SwiftUI"]),
     ]
 )

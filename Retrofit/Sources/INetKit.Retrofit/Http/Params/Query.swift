@@ -22,7 +22,7 @@ public struct Query<T: CustomStringConvertible> {
 }
 
 extension Query: PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: Request.Builder, by retrofit: any PRetrofit) throws {
         let queryParamName = customParamName ?? paramName
         let queryParamValue = wrappedValue.description
         builder.addStrQuerys(strQuerys: [queryParamName: queryParamValue])

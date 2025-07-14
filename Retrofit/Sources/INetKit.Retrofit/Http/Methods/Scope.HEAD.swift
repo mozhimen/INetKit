@@ -4,7 +4,7 @@
 //
 //  Created by Taiyou on 2025/7/8.
 //
-import SUtilKit
+import SUtilKit_SwiftUI
 import Foundation
 
 extension Scope {
@@ -13,7 +13,7 @@ extension Scope {
 
         public let strPath: String
         public var method: Method { .HEAD }
-        private var _customAction: IAsyncThrowA_BListener<REQ,Empty>?
+        private var _customAction: IAsyncThrowA_BListener<REQ,Nothing?>?
         
         //==========================================>
         
@@ -25,12 +25,12 @@ extension Scope {
         
         public static subscript<S: Scope>(
             _enclosingInstance scope: S,
-            wrapped networkActionKeyPath: ReferenceWritableKeyPath<S, IAsyncThrowA_BListener<REQ,Empty>>,
+            wrapped networkActionKeyPath: ReferenceWritableKeyPath<S, IAsyncThrowA_BListener<REQ,Nothing>>,
             storage methodKeyPath: ReferenceWritableKeyPath<S, HEAD>
-        ) -> IAsyncThrowA_BListener<REQ,Empty> {
+        ) -> IAsyncThrowA_BListener<REQ,Nothing?> {
             get {
                 let method = scope[keyPath: methodKeyPath]
-                return method._customAction ?? { try await scope.create(use: method,request: $0) }
+                return method._customAction ?? { try await scope.create(method: method,request: $0) }
             }
             set {
                 let endpoint = scope[keyPath: methodKeyPath]
@@ -39,7 +39,7 @@ extension Scope {
         }
 
         @available(*, unavailable)
-        public var wrappedValue: IAsyncThrowA_BListener<REQ,Empty> {
+        public var wrappedValue: IAsyncThrowA_BListener<REQ,Nothing> {
             get { fatalError("only works on instance properties of classes") }
             // swiftlint:disable:next unused_setter_value
             set { fatalError("only works on instance properties of classes") }

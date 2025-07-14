@@ -9,11 +9,13 @@
 //    func request(with requestBuilder: RequestBuilder) async throws -> ENetKRes//MResultIST<Data>
 //}
 
-public protocol PCallAdapter<R,T>{
-    func adapt(call: PCall<R>) async throws -> T//MResultIST<Data>
+public protocol PCallAdapter<REQ,RES>{
+    associatedtype REQ
+    associatedtype RES
+    func call(request :REQ) async throws -> RES//MResultIST<Data>
 }
 
 
 public protocol PCallAdapterFactory{
-    func get(retrofit: PRetrofit) -> any PCallAdapter<Any,Any>
+    func get() -> any PCallAdapter<Request,Response>
 }

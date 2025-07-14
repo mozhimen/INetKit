@@ -4,14 +4,14 @@
 //
 //  Created by Taiyou on 2025/7/8.
 //
-import SUtilKit
+import SUtilKit_SwiftUI
 
 extension Scope {
     @propertyWrapper
     public class POST<REQ, RES: Decodable>: PMethod {
         public let strPath: String
         public var method: Method { .POST }
-        private var _customAction: IAsyncThrowA_BListener<REQ,RES>?
+        private var _customAction: IAsyncThrowA_BListener<REQ,RES?>?
         
         //==========================================>
         
@@ -25,10 +25,10 @@ extension Scope {
             _enclosingInstance scope: S,
             wrapped networkActionKeyPath: ReferenceWritableKeyPath<S, IAsyncThrowA_BListener<REQ,RES>>,
             storage methodKeyPath: ReferenceWritableKeyPath<S, POST>
-        ) -> IAsyncThrowA_BListener<REQ,RES> {
+        ) -> IAsyncThrowA_BListener<REQ,RES?> {
             get {
                 let method = scope[keyPath: methodKeyPath]
-                return method._customAction ?? { try await scope.create(use: method,request: $0) }
+                return method._customAction ?? { try await scope.create(method: method,request: $0) }
             }
             set {
                 let method = scope[keyPath: methodKeyPath]

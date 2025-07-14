@@ -22,7 +22,7 @@ public struct Header<T: CustomStringConvertible> {
 }
 
 extension Header: PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String, in builder: RequestBuilder.Builder) throws {
+    func parseRequestFields(forParameterWithName paramName: String, in builder: Request.Builder, by retrofit: any PRetrofit) throws {
         let headerParamName = customParamName ?? paramName
         let headerParamValue = wrappedValue.description
         builder.addStrHeaders(strHeaders: [headerParamName: headerParamValue])
