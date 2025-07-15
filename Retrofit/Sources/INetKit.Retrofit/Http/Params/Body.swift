@@ -7,7 +7,7 @@
 
 import Foundation
 @propertyWrapper
-public struct Body<T: Encodable> {
+public struct Body<T> where T:Encodable {
     public let wrappedValue: T
     private let encoder: JSONEncoder
 
@@ -18,7 +18,7 @@ public struct Body<T: Encodable> {
 }
 
 extension Body: PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String, in builder: Request.Builder, by retrofit: any PRetrofit) throws {
+    func parseRequestFields(paramName: String, builder: Request.Builder, retrofit: any PRetrofit) throws {
         guard let body = try retrofit.converterFactory.resquestBodyConverter()?.convert(wrappedValue) else {
             print("Body convert fail!")
             return

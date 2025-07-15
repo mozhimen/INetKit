@@ -11,8 +11,8 @@ public protocol PRetrofit {
     var callAdapterFactory: any PCallAdapterFactory { get }
     var converterFactory: any PConverterFactory { get }
     
-    func setCallAdapterFactory(callAdapterFactory:PCallAdapterFactory)
-    func setConverterFactory(converterFactory:PConverterFactory)
+    func setCallAdapterFactory(callAdapterFactory: PCallAdapterFactory)
+    func setConverterFactory(converterFactory: PConverterFactory)
 }
 
 /**

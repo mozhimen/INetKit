@@ -6,7 +6,7 @@
 //
 
 @propertyWrapper
-public struct Header<T: CustomStringConvertible> {
+public struct Header<T> where T:CustomStringConvertible {
     public let wrappedValue: T
     private let customParamName: String?
 
@@ -22,7 +22,7 @@ public struct Header<T: CustomStringConvertible> {
 }
 
 extension Header: PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String, in builder: Request.Builder, by retrofit: any PRetrofit) throws {
+    func parseRequestFields(paramName: String, builder: Request.Builder, retrofit: any PRetrofit) throws {
         let headerParamName = customParamName ?? paramName
         let headerParamValue = wrappedValue.description
         builder.addStrHeaders(strHeaders: [headerParamName: headerParamValue])

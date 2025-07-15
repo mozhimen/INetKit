@@ -23,7 +23,7 @@ extension Scope {
         
         public static subscript<S: Scope>(
             _enclosingInstance scope: S,
-            wrapped networkActionKeyPath: ReferenceWritableKeyPath<S, IAsyncThrowA_BListener<REQ,RES>>,
+            wrapped networkActionKeyPath: ReferenceWritableKeyPath<S, IAsyncThrowA_BListener<REQ,RES?>>,
             storage methodKeyPath: ReferenceWritableKeyPath<S, POST>
         ) -> IAsyncThrowA_BListener<REQ,RES?> {
             get {
@@ -37,7 +37,7 @@ extension Scope {
         }
 
         @available(*, unavailable)
-        public var wrappedValue: IAsyncThrowA_BListener<REQ,RES> {
+        public var wrappedValue: IAsyncThrowA_BListener<REQ,RES?> {
             get { fatalError("only works on instance properties of classes") }
             // swiftlint:disable:next unused_setter_value
             set { fatalError("only works on instance properties of classes") }

@@ -6,14 +6,19 @@
 //
 import Foundation
 
-public protocol PConverter<F,T> {
-    associatedtype F
-    associatedtype T
+open class PRequestConverter {
+    func convert<F:Encodable>(_ from:F) throws -> Data? {
+        return nil
+    }
+}
 
-    func convert(_ from:F) throws -> T
+open class PResponseConverter {
+    func convert<T:Decodable>(_ from:Data) throws -> T? {
+        return nil
+    }
 }
 
 public protocol PConverterFactory{
-    func resquestBodyConverter() -> (any PConverter<Any,Data>)?
-    func responseBodyConverter() -> (any PConverter<Data,Any>)?
+    func resquestBodyConverter() -> PRequestConverter?
+    func responseBodyConverter() -> PResponseConverter?
 }

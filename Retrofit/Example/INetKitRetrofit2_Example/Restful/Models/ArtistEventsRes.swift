@@ -5,7 +5,7 @@
 //  Created by Taiyou on 2025/7/8.
 //
 
-struct ArtistEventsRes: Decodable,Sendable {
+struct ArtistEventsRes: Decodable {
     let eventsList: [Event]
 
     struct Event: Decodable {

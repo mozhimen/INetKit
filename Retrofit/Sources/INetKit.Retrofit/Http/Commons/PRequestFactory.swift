@@ -6,5 +6,5 @@
 //
 
 protocol PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String,in builder: Request.Builder,by retrofit: PRetrofit) throws
+    func parseRequestFields(paramName: String,builder: Request.Builder,retrofit: PRetrofit) throws
 }

@@ -17,7 +17,7 @@ public enum Response{
 
 public struct Nothing: Decodable { }
 
-public enum ResponseOptional<S:Decodable & Sendable,E:Decodable & Sendable>:Decodable,Sendable{
+public enum ResponseOptional<S:Decodable,E:Decodable>:Decodable{
     case success(S)
     case error(E)
 }

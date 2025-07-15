@@ -31,31 +31,11 @@ class URLSessionCallAdapter:PCallAdapter{
     
     ///=====================================================================>
     
-    func setStrScheme(strScheme:String){
-        self._strScheme = strScheme
-    }
-    
-    func setStrHost(strHost:String){
-        self._strHost = strHost
-    }
-    
-    func setStrHeadersGlobal(strHeaders:[String:String]?){
-        self._strHeadersGlobal = strHeaders
-    }
-    
-    func setTimeoutIntervalForRequest(timeoutIntervalForRequest:Double){
-        self._intTimeoutIntervalForRequest = timeoutIntervalForRequest
-    }
-    
-    func setTimeoutIntervalForResource(timeoutIntervalForResource:Double){
-        self._intTimeoutIntervalForResource = timeoutIntervalForResource
-    }
-    
-    ///=====================================================================>
-    
     static func create(strScheme:String,strHost:String,strHeaders:[String:String]?,timeoutIntervalForRequest:Double,timeoutIntervalForResource:Double)->URLSessionCallAdapter{
         URLSessionCallAdapter.init(strScheme: strScheme, strHost: strHost, strHeaders: strHeaders, timeoutIntervalForRequest: timeoutIntervalForRequest, timeoutIntervalForResource: timeoutIntervalForResource)
     }
+    
+    ///=====================================================================>
     
     init(strScheme:String,strHost:String,strHeaders:[String:String]?,timeoutIntervalForRequest:Double,timeoutIntervalForResource:Double) {
         self._strScheme = strScheme

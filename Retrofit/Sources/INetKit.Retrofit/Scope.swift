@@ -33,7 +33,7 @@ open class Scope<R:PRetrofit> {
             guard let t = data.t else {
                 return nil
             }
-            return try _retrofit.converterFactory.responseBodyConverter()!.convert(t) as! RES
+            return try _retrofit.converterFactory.responseBodyConverter()!.convert(t)
         case.Empty:
             print("response is Empty")
             return nil
@@ -48,13 +48,13 @@ open class Scope<R:PRetrofit> {
     private func buildRequest<REQ>(
         use method: PMethod,
         request: REQ
-    ) throws ->Request{
+    ) throws -> Request{
         //===========================================>
-        let requestBuilder = Request.Builder()
+        let builder = Request.Builder()
         //method
-        requestBuilder.setMethod(method: method.method)
+        builder.setMethod(method: method.method)
         //path
-        requestBuilder.setStrPath(strPath: method.strPath)
+        builder.setStrPath(strPath: method.strPath)
         //others
         try Mirror(reflecting: request)
             .children
@@ -64,9 +64,9 @@ open class Scope<R:PRetrofit> {
                 else { return nil }
                 return (paramName, param)
             }
-            .forEach { (paramName: String, builder: PRequestFactory) in
-                try builder.parseRequestFields(forParameterWithName: paramName, in: requestBuilder, by: _retrofit)
+            .forEach { (paramName: String, factory: PRequestFactory) in
+                try factory.parseRequestFields(paramName: paramName, builder: builder, retrofit: _retrofit)
             }
-        return try requestBuilder.build()
+        return try builder.build()
     }
 }

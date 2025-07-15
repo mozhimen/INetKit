@@ -5,7 +5,7 @@
 //  Created by Taiyou on 2025/7/8.
 //
 @propertyWrapper
-public struct Path<T: CustomStringConvertible> {
+public struct Path<T> where T:CustomStringConvertible {
     public let wrappedValue: T
     private let customParamName: String?
 
@@ -21,7 +21,7 @@ public struct Path<T: CustomStringConvertible> {
 }
 
 extension Path: PRequestFactory {
-    func parseRequestFields(forParameterWithName paramName: String, in builder: Request.Builder, by retrofit: any PRetrofit) throws {
+    func parseRequestFields(paramName: String, builder: Request.Builder, retrofit: any PRetrofit) throws {
         let pathComponentName = customParamName ?? paramName
         let pathComponentValue = wrappedValue.description
         builder.addStrPathComponent(strPathComponent: "{\(pathComponentName)}", filledWith: pathComponentValue)

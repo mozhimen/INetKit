@@ -8,10 +8,8 @@ import Foundation
 import Combine
 import INetKit_Retrofit
 
-@MainActor
-final class ContentViewModel:ObservableObject{
+final class ContentViewModel: ObservableObject{
 
-    
     @Published private(set) var loading = false
     @Published private(set) var details = ""
     
@@ -30,25 +28,29 @@ final class ContentViewModel:ObservableObject{
 
             do {
                 let artistDetailsRes = try await _api.findArtist(FindArtistReq(
-                    artistName: artist,
+                    artistName: self.artist,
                     appId: "123"))
 
                 //========================================================================>
                 
-                let articleEventsRes = try await _api.artistEvents(ArtistEventsReq(
-                    artistName: artist,
-                    appId: corruptAppId ? "fffff" : "123",
+                let articleEventsRes = try await self._api.artistEvents(ArtistEventsReq(
+                    artistName: self.artist,
+                    appId: self.corruptAppId ? "fffff" : "123",
                     date: "2023-05-05,2023-09-05"))
 
                 //========================================================================>
                 
-                switch articleEventsRes {
-                case .success(let events):
-                    details = "\(artistDetailsRes.description)\n\nEvents:\n\(events.description)"
-                case .error(let errorResponse):
-                    error = errorResponse.errorMessage
+//                switch articleEventsRes {
+//                case .success(let events):
+//                    details = "\(artistDetailsRes.description)\n\nEvents:\n\(events.description)"
+//                case .error(let errorResponse):
+//                    error = errorResponse.errorMessage
+//                }
+                if articleEventsRes != nil,articleEventsRes != nil {
+                    self.details = "\(artistDetailsRes!.description)\n\nEvents:\n\(articleEventsRes!.description)"
                 }
             } catch {
+                print("print \(error.localizedDescription)")
                 self.error = error.localizedDescription
             }
 
