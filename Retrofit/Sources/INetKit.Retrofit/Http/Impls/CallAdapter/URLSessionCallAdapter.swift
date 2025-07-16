@@ -107,7 +107,7 @@ class URLSessionCallAdapter:PCallAdapter{
         print(uRLRequest.uRLRequest2str())
         //
         return _uRLSession.dataTask(with: uRLRequest) { data, uRLResponse, error in
-            print(uRLResponse2str(uRLResponse: uRLResponse, data: data, error: error))
+            print(uRLResponse?.uRLResponse2str(data: data, error: error))
             //
             let hTTPURLResponse = uRLResponse as? HTTPURLResponse
             let statusCode = hTTPURLResponse?.statusCode
