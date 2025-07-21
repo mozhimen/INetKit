@@ -16,6 +16,10 @@ public enum Response{
 }
 
 public struct Nothing: Decodable { }
+public struct EmptyBody:Encodable{
+    
+    public init() {}
+}
 
 public enum ResponseOptional<S:Decodable,E:Decodable>:Decodable{
     case success(S)
