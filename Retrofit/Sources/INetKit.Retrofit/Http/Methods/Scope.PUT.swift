@@ -9,17 +9,26 @@ import SUtilKit_SwiftUI
 extension Scope {
     @propertyWrapper
     public class PUT<REQ, RES: Decodable>: PMethod {
-    
+        
         public let strPath: String
         public var method: Method { .PUT }
         private var _customAction: IAsyncThrowA_BListener<REQ,RES?>?
-    
+        
         //==========================================>
         
         public init(_ strPath: String) {
             self.strPath = strPath
         }
-
+        
+        //==========================================>
+        
+        @available(*, unavailable)
+        public var wrappedValue: IAsyncThrowA_BListener<REQ,RES?> {
+            get { fatalError("only works on instance properties of classes") }
+            // swiftlint:disable:next unused_setter_value
+            set { fatalError("only works on instance properties of classes") }
+        }
+        
         //==========================================>
         
         public static subscript<S: Scope>(
@@ -36,12 +45,5 @@ extension Scope {
                 method._customAction = newValue
             }
         }
-
-        @available(*, unavailable)
-        public var wrappedValue: IAsyncThrowA_BListener<REQ,RES?> {
-            get { fatalError("only works on instance properties of classes") }
-            // swiftlint:disable:next unused_setter_value
-            set { fatalError("only works on instance properties of classes") }
-        }
-}
+    }
 }

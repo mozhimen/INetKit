@@ -22,6 +22,15 @@ extension Scope {
 
         //==========================================>
         
+        @available(*, unavailable)
+        public var wrappedValue: IAsyncThrowA_BListener<REQ,RES?> {
+            get { fatalError("only works on instance properties of classes") }
+            // swiftlint:disable:next unused_setter_value
+            set { fatalError("only works on instance properties of classes") }
+        }
+        
+        //==========================================>
+        
         public static subscript<S: Scope>(
             _enclosingInstance scope: S,
             wrapped networkActionKeyPath: ReferenceWritableKeyPath<S, IAsyncThrowA_BListener<REQ,RES?>>,
@@ -35,13 +44,6 @@ extension Scope {
                 let method = scope[keyPath: methodKeyPath]
                 method._customAction = newValue
             }
-        }
-
-        @available(*, unavailable)
-        public var wrappedValue: IAsyncThrowA_BListener<REQ,RES?> {
-            get { fatalError("only works on instance properties of classes") }
-            // swiftlint:disable:next unused_setter_value
-            set { fatalError("only works on instance properties of classes") }
         }
     }
 }
