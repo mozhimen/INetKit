@@ -25,6 +25,7 @@ class URLSessionCallAdapter:PCallAdapter{
             uRLSessionConfiguration.timeoutIntervalForRequest = _intTimeoutIntervalForRequest
             uRLSessionConfiguration.timeoutIntervalForResource = _intTimeoutIntervalForResource
             uRLSessionConfiguration.httpAdditionalHeaders = _strHeadersGlobal
+            print("_uRLSession httpAdditionalHeaders \(uRLSessionConfiguration.httpAdditionalHeaders)")
             return uRLSessionConfiguration
         }()
     )

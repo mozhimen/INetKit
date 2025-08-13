@@ -15,7 +15,7 @@ class URLSessionCallAdapterFactory: PCallAdapterFactory{
     //============================================
     
     static func create(strScheme: String, strHost: String, strHeadersGlobal: [String : String]? = nil, intTimeoutIntervalForRequest: Double, intTimeoutIntervalForResource: Double)->URLSessionCallAdapterFactory{
-        URLSessionCallAdapterFactory(strScheme: strScheme, strHost: strHost, intTimeoutIntervalForRequest: intTimeoutIntervalForRequest, intTimeoutIntervalForResource: intTimeoutIntervalForResource)
+        URLSessionCallAdapterFactory(strScheme: strScheme, strHost: strHost,strHeadersGlobal: strHeadersGlobal, intTimeoutIntervalForRequest: intTimeoutIntervalForRequest, intTimeoutIntervalForResource: intTimeoutIntervalForResource)
     }
     
     //============================================
